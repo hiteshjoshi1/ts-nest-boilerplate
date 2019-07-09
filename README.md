@@ -7,6 +7,10 @@
 
 NESTJs - A Typescript/ Javascript equivalent of Spring boot.
 
+API branch - No front end integration
+
+Default url opens API docs - localhost:3000/
+
 Opioniated very similar to Angular. Modular
 
 ## Description
