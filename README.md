@@ -49,6 +49,16 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Running in docker
+
+### Building docker image
+
+docker build -t ts-nest .
+
+### Running docker image pointing to local postgres
+
+docker run -p 3000:3000 -e DB_PORT=5432 -e DB_HOST=host.docker.internal -e DB_USERNAME=root -e DB_PASSWORD=root -e DB_NAME=photos ts-nest:latest
+
 ## PostGres
 
 Postgres commands
