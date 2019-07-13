@@ -15,7 +15,10 @@ export class PhotoService {
   }
 
   async save(photo: Photo): Promise<Photo> {
-    Logger.log('Internal Logger test');
     return await this.photoRepository.save(photo);
+  }
+
+  async findOne(id: number): Promise<Photo> {
+    return await this.photoRepository.findOne(id);
   }
 }
