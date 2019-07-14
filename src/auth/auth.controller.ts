@@ -27,6 +27,16 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() userDTO: RegisterUserDTO) {
+    // if (!(body && body.username && body.password)) {
+    //   return res.status(HttpStatus.FORBIDDEN).json({ message: 'Username and password are required!' });
+    // }
+
+    // let user = await this.userService.getUserByUsername(body.username);
+
+    // if (user) {
+    //   return res.status(HttpStatus.FORBIDDEN).json({ message: 'Username exists' });
+    // } else {
+
     const user = await this.userService.create(userDTO);
     const payload: Payload = {
       email: user.email,

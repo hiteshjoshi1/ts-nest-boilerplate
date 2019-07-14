@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,6 +13,18 @@ import { Payload } from '../dto/jwt-payload';
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
+  }
+
   async findUserbyJWT(payload: Payload): Promise<User> {
     const { email } = payload;
     return await this.userRepository.findOne({
@@ -37,17 +50,6 @@ export class UserService {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
-  constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-  ) {}
-  async findByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({
-      where: {
-        email: email,
-      },
-    });
-  }
 
   async findById(id: number): Promise<User> {
     return await this.userRepository.findOne({
@@ -58,13 +60,19 @@ export class UserService {
   }
 
   async create(registerUserDTO: RegisterUserDTO): Promise<User> {
-    let user: User = new User();
-    user.name = registerUserDTO.name;
-    user.email = registerUserDTO.email;
-    user.password = registerUserDTO.password;
-    user.role = registerUserDTO.role;
-    let savedUser: User = await this.userRepository.save(user);
-    return this.sanitizeUser(savedUser);
+    let user = await this.findByEmail(registerUserDTO.email);
+
+    if (user) {
+      throw new BadRequestException('User already exists with this email');
+    } else {
+      let user: User = new User();
+      user.name = registerUserDTO.name;
+      user.email = registerUserDTO.email;
+      user.password = registerUserDTO.password;
+      user.role = registerUserDTO.role;
+      let savedUser: User = await this.userRepository.save(user);
+      return this.sanitizeUser(savedUser);
+    }
   }
 
   private sanitizeUser(user: User) {
