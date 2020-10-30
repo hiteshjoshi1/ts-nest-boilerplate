@@ -61,6 +61,11 @@ docker run -p 3000:3000 -e DB_PORT=5432 -e DB_HOST=host.docker.internal -e DB_US
 
 ## PostGres
 
+Run postgres via docker
+```
+docker-compose up boilerplate-db
+```
+
 Postgres commands
 
 ### Connect locally
@@ -88,3 +93,9 @@ grant all privileges on database photos to root;
 ### List all tables
 
 \dt
+
+
+### Testing the api
+```
+curl -d '{"name":"value1", "description":"value2","filename":"value2", "views":10,"isPublished":true}' -H "Content-Type: application/json" -X POST http://localhost:3000/photo
+```

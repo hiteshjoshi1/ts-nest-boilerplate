@@ -12,13 +12,14 @@ import { Photo } from './photo.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleGuard } from '../guards/role.guard';
 
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 @Controller('photo')
 export class PhotoController {
   constructor(private photoService: PhotoService) {}
 
   @Get()
   findAll(): Promise<Photo[]> {
+    console.log(this.photoService.test());
     return this.photoService.findAll();
   }
 
@@ -29,7 +30,7 @@ export class PhotoController {
   ): Promise<Photo> {
     return this.photoService.findOne(id);
   }
-  @UseGuards(RoleGuard)
+  // @UseGuards(RoleGuard)
   @Post()
   async create(@Body() photo: Photo) {
     return await this.photoService.save(photo);

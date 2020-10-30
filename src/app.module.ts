@@ -6,6 +6,7 @@ import { join } from 'path';
 import { PhotoModule } from './photo/photo.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     PhotoModule,
     UserModule,
     AuthModule,
+    ConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],

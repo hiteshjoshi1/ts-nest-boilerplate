@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  boilerplate-db:
+    container_name: "boilerplate-db"
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
